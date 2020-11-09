@@ -84,6 +84,44 @@ function sampleMetadata (sample) {
 };
 
 
+
+// Create initial dropdown menu and update
+// when new sample selected from dropdown menu
+
+function init () {
+
+  // Use D3 to select the dropdown menu
+  var dropdownMenu = d3.select("#selDataset");
+
+    // Get the data from the json file
+    d3.json("data/samples.json").then((data) => {
+
+        // Get the id data to the dropdwown menu
+        data.names.forEach(function(name) {
+            dropdown.append("option").text(name).property("value");
+    });
+
+    // Get the first metadata and plots to display
+    firstPlot(data.names[0]);
+    firstMetaData(data.names[0]);
+
+    });
+
+};
+
+// Create a function to update all plots and metadata when new sample selected
+function updateData(sample) {
+    changePlots(sample);
+    changeMetaData(sample);
+}
+
+init ();
+
+  
+
+
+
+
       
 
 
