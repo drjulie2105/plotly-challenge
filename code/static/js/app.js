@@ -1,7 +1,7 @@
 function buildCharts(sample) {
 
     //fetch data from json file
-    d3.json("samples.json").then((data) => {
+    d3.json("data/samples.json").then((data) => {
       
         var samples = data.samples;
         var resultArray = samples.filter(sampleObj => sampleObj.id == sample);
@@ -64,51 +64,51 @@ function buildCharts(sample) {
    });
 };
 
-// // Display sample metadata/demographic info
+// Display sample metadata/demographic info
 
-// function sampleMetadata (sample) {
+function sampleMetadata (sample) {
 
-//     d3.json("data/samples.json").then((data) => {
-//         // use id sample-metadata
-//         var metaData = d3.select("#sample-metadata");
-//         // clear existing metadata
-//         metaData.html("");
-//         // get each key and value in the metadata
-//         Object.entries(data).forEach(([key, value]) => {
-//           metaData.append("h3").text(`${key}:${value}`);
-//         });
+    d3.json("data/samples.json").then((data) => {
+        // use id sample-metadata
+        var metaData = d3.select("#sample-metadata");
+        // clear existing metadata
+        metaData.html("");
+        // get each key and value in the metadata
+        Object.entries(data).forEach(([key, value]) => {
+          metaData.append("h3").text(`${key}:${value}`);
+        });
         
-//     });
-// };
+    });
+};
 
 
-// // Create initial dropdown menu 
+// Create initial dropdown menu 
 
-// function init () {
+function init () {
 
-//   // Use D3 to select the dropdown menu
-//   var dropdownMenu = d3.select("#selDataset");
+  // Use D3 to select the dropdown menu
+  var dropdownMenu = d3.select("#selDataset");
 
-//     // Get the data from the json file
-//     d3.json("data/samples.json").then((data) => {
+    // Get the data from the json file
+    d3.json("data/samples.json").then((data) => {
 
-//         // Get the id data to the dropdown menu
-//         data.names.forEach(function(name) {
-//             dropdown.append("option").text(name).property("value");
-//     });
+        // Get the id data to the dropdown menu
+        data.names.forEach(function(name) {
+            dropdown.append("option").text(name).property("value");
+    });
 
-//     // Get the first metadata and plots to display
-//     firstPlot(data.names[0]);
-//     firstMetaData(data.names[0]);
+    // Get the first metadata and plots to display
+    firstPlot(data.names[0]);
+    firstMetaData(data.names[0]);
 
-//     });
+    });
 
-// };
+};
 
-// // Create a function to update all plots and metadata when new sample selected
-// function updateData(sample) {
-//     changePlots(sample);
-//     changeMetaData(sample);
-// }
+// Create a function to update all plots and metadata when new sample selected
+function updateData(sample) {
+    changePlots(sample);
+    changeMetaData(sample);
+}
 
-// init ();
+init ();
