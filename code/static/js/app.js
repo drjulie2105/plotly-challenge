@@ -18,9 +18,9 @@ function buildCharts(sample) {
       
     // create the trace for bar chart
       var trace = {
-        x: otuIds,
-        y: sampleValues,
-        text: otuLabels,
+        x: otuIds.slice(0.10).map(otuId => `OTU ${otuId}`).reverse(),
+        y: sampleValues.slice(0,10).reverse(),
+        text: otuLabels.slice(0,10).reverse(),
         type: "bar",
         orientation: "h"
       };
@@ -35,36 +35,34 @@ function buildCharts(sample) {
         yaxis: { title: "Sample Values" }
       };
       
-      // Plot the chart to a div tag with id "bar"
-      Plotly.newPlot("bar", data, layout);
+    // Plot the chart to a div tag with id "bar"
+    Plotly.newPlot("bar", data, layout);
 
-    });
+    // create bubble chart
+    var trace1 = {
+        x: otuIds,
+        y: sampleValues,
+        mode: 'markers',
+        marker: {size: sampleValues, color: otuIds},
+        text: otuLabels
+    };
 
+    // create data and layout for bubble chart
+
+    var data1 = [trace1];
+
+    var layout1 = {
+        title: "Samples for each OTU",
+        xaxis: {title: "OTU ID"},
+        yaxis: {title: "Sample Values"}
+    };
+
+        // Plot the chart to div tag w/ id "bubble"
+
+    Plotly.newPlot ("bubble", data1, layout1);
+
+   });
 };
-//     // create bubble chart
-//     var trace1 = {
-//         x: otuIds,
-//         y: sampleValues,
-//         mode: 'markers',
-//         marker: {size: sampleValues, color: otuIds},
-//         text: otuLabels
-//     };
-
-//     // create data and layout for bubble chart
-
-//     var data1 = [trace1];
-
-//     var layout1 = {
-//         title: "Samples for each OTU",
-//         xaxis: {title: "OTU ID"},
-//         yaxis: {title: "Sample Values"}
-//     }
-//         // Plot the chart to div tag w/ id "bubble"
-
-//         Plotly.newPlot ("bubble", data1, layout1);
-
-//    });
-// };
 
 // // Display sample metadata/demographic info
 
