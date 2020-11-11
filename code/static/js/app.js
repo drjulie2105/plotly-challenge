@@ -1,7 +1,7 @@
 function buildCharts(sample) {
 
     //fetch data from json file
-    d3.json("data/samples.json").then((data) => {
+    d3.json("samples.json").then((data) => {
       
         var samples = data.samples;
         var resultArray = samples.filter(sampleObj => sampleObj.id == sample);
@@ -68,14 +68,20 @@ function buildCharts(sample) {
 
 function sampleMetadata (sample) {
 
-    d3.json("data/samples.json").then((data) => {
-        // use id sample-metadata
-        var metaData = d3.select("#sample-metadata");
+    d3.json("samples.json").then((data) => {
+        // create metaData variable
+        var metaData = data.metadata;
+        // filter the data for the sample number
+        var resultSample = metaData.filter (sampleObj => sampleObj.id == sample);
+        // get first result
+        var result = resultSample [0];
+        //d3 to select ID sample-metadata
+        var metaDataResult=d3.select("#sample-metadata");
         // clear existing metadata
-        metaData.html("");
+        metaDataResult.html("");
         // get each key and value in the metadata
-        Object.entries(data).forEach(([key, value]) => {
-          metaData.append("h3").text(`${key}:${value}`);
+        Object.entries(result).forEach(([key, value]) => {
+          metaDataResult.append("h3").text(`${key}:${value}`);
         });
         
     });
@@ -90,25 +96,28 @@ function init () {
   var dropdownMenu = d3.select("#selDataset");
 
     // Get the data from the json file
-    d3.json("data/samples.json").then((data) => {
+    d3.json("samples.json").then((data) => {
 
         // Get the id data to the dropdown menu
-        data.names.forEach(function(name) {
-            dropdown.append("option").text(name).property("value");
+        var sampleName = data.names;
+
+        sampleName.forEach((sample) => {
+            dropdownMenu.append("option").text(sample).property("value", sample);
     });
 
     // Get the first metadata and plots to display
-    firstPlot(data.names[0]);
-    firstMetaData(data.names[0]);
+    var firstSample = sampleName [0];
+    buildCharts(firstSample);
+    sampleMetaData(firstSample);
 
     });
 
 };
 
 // Create a function to update all plots and metadata when new sample selected
-function updateData(sample) {
-    changePlots(sample);
-    changeMetaData(sample);
+function updateData(nextSample) {
+    buildCharts(nextSample);
+    sampleMetaData(nextSample);
 }
 
 init ();
